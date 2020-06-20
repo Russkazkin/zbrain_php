@@ -84,4 +84,9 @@ class Db
     {
         return $this->query($sql, $param)->fetchAll();
     }
+
+    public function getCount($sql, $param = [])
+    {
+        return $this->query($sql, $param)->fetchColumn();
+    }
 }

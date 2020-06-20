@@ -1,16 +1,32 @@
 <?php
 
 use app\engine\Db;
+use app\engine\Email;
 
 require_once 'vendor/autoload.php';
 
-$sql = 'SELECT * FROM emails';
-$userData = Db::getInstance()->queryOne($sql);
 $json = file_get_contents("php://input");
 $data = json_decode($json);
-if($data->email) {
-    $send = ['received' => $data->email];
+if(!$data->email) {
+    die('0 emails received');
 }
-$response = json_encode($send);
-header('Content-Type: application/json');
+$email = new Email($data->email);
+if($email->save()) {
+    $data = json_encode([
+        'count' => $email->checkUniqueness(),
+        'email' => $email->email(),
+        'result' => 'Email saved successfully'
+    ]);
+    header("HTTP/1.0 200 Operation successful");
+} else {
+    $data = json_encode([
+        'count' => $email->checkUniqueness(),
+        'email' => $email->email(),
+        'result' => 'Email not saved'
+    ]);
+    header("HTTP/1.0 400 Bad Request");
+}
+
+//header("Content-Type: application/json");
+$response = json_encode($data);
 echo $response;
