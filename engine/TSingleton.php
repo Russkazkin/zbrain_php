@@ -1,10 +1,10 @@
 <?php
 
 
-namespace app;
+namespace app\engine;
 
 
-class TSingleton
+trait TSingleton
 {
     private static $instance = null;
 
