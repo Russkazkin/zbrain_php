@@ -1,0 +1,16 @@
+{
+    "name": "skazkin/zbrain_php",
+    "authors": [
+        {
+            "name": "Russkazkin",
+            "email": "ruslan@skazkin.su"
+        }
+
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\": ""
+        }
+    },
+    "require": {}
+}
