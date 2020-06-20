@@ -27,14 +27,15 @@ class Email
     public function checkUniqueness()
     {
         $sql = 'SELECT COUNT(*) FROM emails WHERE email= :email';
-        return $this->db->getCount($sql, ['email' => $this->email]);
+        return !$this->db->getCount($sql, ['email' => $this->email]);
     }
 
     public function save()
     {
-        if(!$this->checkUniqueness()) {
+        if($this->checkUniqueness()) {
             $sql = 'INSERT INTO emails VALUES (NULL, :email, NOW(), NOW())';
             return $this->db->execute($sql, ['email' => $this->email]);
         }
+        return false;
     }
 }
